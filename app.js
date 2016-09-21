@@ -11,6 +11,15 @@ var cookieSession = require('cookie-session');
 var Listing = mongoose.model('Listing');
 var User = mongoose.model('User');
 
+var passport = require('passport'),
+    LocalStrategy = require('passport-local').Strategy;
+
+var bcrypt = require('bcrypt');
+  const saltRounds = 10;
+  const myPlaintextPassword = 's0/\/\P4$$w0rD';
+  const someOtherPlaintextPassword = 'not_bacon';
+
+
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -58,19 +67,12 @@ app.get("/users/new", function (req, res) {
 
 app.post("/users", function (req, res) {
   if (req.body.password === req.body.password_confirmation) {
-
-
-    User.create({name: req.body.name,
-                 email: req.body.email,
-                 password: req.body.password}),
-      function (err, listing) {
-        if (err) {
-          res.send("There was a problem adding the information to the database.");
-        } else {
-          console.log('New listing has been created');
-        };
-
-      };
+      bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
+      User.create({name:      req.body.name,
+                   email:     req.body.email,
+                   password:  hash            }),
+      function (err, listing) {if (err) {res.send("There was a problem adding the information to the database.")} else {console.log('New listing has been created')}};
+      });
 
 
       setTimeout(function() {

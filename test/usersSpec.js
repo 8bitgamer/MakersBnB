@@ -41,4 +41,29 @@ describe('User visits the page and signs up', function() {
     });
   });
 
+  describe('logs in', function() {
+
+    before(function(done) {
+      browser
+        .fill('name',    'Zombie')
+        .fill('email', 'zombie1@dead.com')
+        .fill('password', '111')
+        .fill('password_confirmation', '111')
+        .pressButton('Sign up', done);
+    });
+
+    it('should be successful', function() {
+      browser.assert.success();
+    });
+
+    it('shows the registered listing', function() {
+      browser.assert.text("body", /Welcome Zombie/);
+    });
+
+    it('should see welcome page', function() {
+      browser.assert.text('title', 'Listings');
+    });
+  });
+
+
 });
