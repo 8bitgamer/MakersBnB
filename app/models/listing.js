@@ -10,4 +10,4 @@ var listingSchema = mongoose.Schema({
 
 mongoose.model('Listing', listingSchema);
 
-console.log('This file (listing.js) is loaded too!')
+console.log('This file (listing.js) is loaded too!');
