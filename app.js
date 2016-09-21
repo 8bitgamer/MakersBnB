@@ -7,7 +7,7 @@ var db = require('./config/db');
 var listing = require('./app/models/listing');
 var user = require('./app/models/user');
 var mongoose = require('mongoose');
-var cookieSession = require('cookie-session');
+var session = require('express-session');
 var Listing = mongoose.model('Listing');
 var User = mongoose.model('User');
 
@@ -23,7 +23,10 @@ var bcrypt = require('bcrypt');
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.use(cookieSession({secret: 'mysecretphrase'}));
+app.use(session({secret: 'mysecretphrase',
+                  resave: false,
+                  saveUninitialized: true
+}));
 
 app.set("view engine", "ejs");
 
@@ -52,6 +55,7 @@ app.post("/listings", function (req, res) {
 });
 
 app.get("/listings", function(req, res) {
+  console.log(req.session.user);
   var listingMap = {};
   Listing.find({}, function(err, listings) {
     listingMap = listings;
@@ -76,12 +80,13 @@ app.post("/users", function (req, res) {
 
 
       setTimeout(function() {
-        User.findOne({'email': 'zombie1@dead.com'}, function(err,testing){console.log("username " + testing);})
-        User.find({email: 'zombie1@dead.com'}, function(err,user){console.log("usernamesss " + user)})
-
+        User.findOne({'email': req.body.email}, function(err,testing){req.session.user = testing.email;
+          req.session.save();
+        })
+        User.findOne({'email': req.body.email}, function(err,user){console.log("usernamesss " + user)})
+        res.redirect("/listings");
       }, 500);
 
-      res.redirect("/listings");
   } else {
 
     console.log("User add failure, password mismatch?");
