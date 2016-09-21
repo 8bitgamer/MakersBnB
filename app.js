@@ -3,10 +3,12 @@ process.env.NODE_ENV ? process.env.NODE_ENV : process.env.NODE_ENV = 'developmen
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
-var db = require('./config/db')
-var listing = require('./app/models/listing')
+var db = require('./config/db');
+var listing = require('./app/models/listing');
+var user = require('./app/models/user');
 var mongoose = require('mongoose');
 var Listing = mongoose.model('Listing');
+var User = mongoose.model('User');
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({
@@ -46,8 +48,33 @@ app.get("/listings", function(req, res) {
   setTimeout(function() {
     res.render("listings/index", { listingMap });
   }, 500);
-})
+});
 
+app.get("/users/new", function (req, res) {
+  res.render("users/new", {});
+});
+
+app.post("/users", function (req, res) {
+  if (req.body.password === req.body.password_confirmation) {
+    User.create({name: req.body.name,
+                          email: req.body.email,
+                          password: req.body.password}),
+      function (err, listing) {
+        if (err) {
+          res.send("There was a problem adding the information to the database.");
+        } else {
+          console.log('New listing has been created');
+        }
+      };
+      res.redirect("/listings");
+  } else {
+
+    console.log("User add failure, password mismatch?");
+    //add flash message functonality
+    res.redirect("/users/new");
+  }
+
+});
 app.listen(3000, function () {
   console.log('Makers B&B app listening on port 3000!');
 });

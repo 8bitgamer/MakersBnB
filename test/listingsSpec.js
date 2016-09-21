@@ -13,7 +13,7 @@ describe('User visits add listing page', function() {
     browser.visit('/listings/new', done);
 
     mongoose.model('Listing').remove({}, function(err) {
-      console.log('collection removed')
+      console.log('Listing collection removed')
     });
 
   });
