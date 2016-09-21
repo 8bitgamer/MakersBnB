@@ -100,6 +100,37 @@ app.post("/users", function (req, res) {
     // }
 
 });
+
+app.get('/users/login', function(req, res){
+  res.render("users/login", {});
+});
+
+app.post('/users/login', function(req, res){
+
+  var userInput = req.body.password
+  var currentPassword;
+  User.findOne({'email': req.body.email}, function(err,user){currentPassword = user.password})
+  setTimeout(function() {
+    console.log("User password: " + currentPassword);
+
+    bcrypt.compare(userInput, currentPassword, function(err, bcryptRes) {
+        if (bcryptRes == true) {
+          User.findOne({'email': req.body.email}, function(err,testing){req.session.user = testing.email;
+            req.session.save();
+          });
+          res.redirect("/listings");
+        } else {
+          console.log('login unsuccessful, try again?')
+          res.redirect("/users/login");
+        }
+    });
+
+  }, 500);
+  console.log('passwordHash' + currentPassword)
+  console.log('userInput' + userInput)
+
+})
+
 app.listen(3000, function () {
   console.log('Makers B&B app listening on port 3000!');
 });
