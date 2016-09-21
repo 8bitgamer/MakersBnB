@@ -12,13 +12,10 @@ var Listing = mongoose.model('Listing');
 var User = mongoose.model('User');
 
 app.use(express.static('public'));
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
-app.use(cookieSession({
-  name: 'session',
-  keys: ['key1', 'key2' ]
-}));
+app.use(bodyParser.urlencoded({extended: true}));
+
+app.use(cookieSession({secret: 'mysecretphrase'}));
+
 app.set("view engine", "ejs");
 
 app.get('/', function (req, res) {
@@ -41,7 +38,7 @@ app.post("/listings", function (req, res) {
           } else {
             console.log('New listing has been created');
           }
-        };
+        }
   res.redirect("/listings");
 });
 
@@ -61,27 +58,39 @@ app.get("/users/new", function (req, res) {
 
 app.post("/users", function (req, res) {
   if (req.body.password === req.body.password_confirmation) {
+
+
     User.create({name: req.body.name,
                  email: req.body.email,
                  password: req.body.password}),
-                User.findOne({email: req.body.email}, function(err, user){
-                  req.session.user = user.id;
-                  console.log(user.id + "stored user id cookie");
-                }),
       function (err, listing) {
         if (err) {
           res.send("There was a problem adding the information to the database.");
         } else {
           console.log('New listing has been created');
-        }
+        };
+
       };
+
+
+      setTimeout(function() {
+        User.findOne({'email': 'zombie1@dead.com'}, function(err,testing){console.log("username " + testing);})
+        User.find({email: 'zombie1@dead.com'}, function(err,user){console.log("usernamesss " + user)})
+
+      }, 500);
+
       res.redirect("/listings");
   } else {
 
     console.log("User add failure, password mismatch?");
     //add flash message functonality
-    res.redirect("/users/new");
-  }
+    res.redirect("/users/new")};
+
+    // if (req.body.password == req.body.password_confirmation) {
+    //   User.findOne({email: req.body.email}, function(err, user){
+    //                    req.session.userid = user.id});
+    //                    console.log(user.id);
+    // }
 
 });
 app.listen(3000, function () {

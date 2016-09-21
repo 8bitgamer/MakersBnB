@@ -13,10 +13,8 @@ describe('User visits the page and signs up', function() {
     browser.visit('/users/new', done);
 
     mongoose.model('User').remove({}, function(err) {
-      console.log('User collection removed');
-
+      console.log('User collection removed BEFORE');
     });
-
   });
 
   describe('signs up', function() {
@@ -24,7 +22,7 @@ describe('User visits the page and signs up', function() {
     before(function(done) {
       browser
         .fill('name',    'Zombie')
-        .fill('email', 'zombie@dead.com')
+        .fill('email', 'zombie1@dead.com')
         .fill('password', '111')
         .fill('password_confirmation', '111')
         .pressButton('Sign up', done);
