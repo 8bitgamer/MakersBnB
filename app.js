@@ -7,12 +7,17 @@ var db = require('./config/db');
 var listing = require('./app/models/listing');
 var user = require('./app/models/user');
 var mongoose = require('mongoose');
+var cookieSession = require('cookie-session');
 var Listing = mongoose.model('Listing');
 var User = mongoose.model('User');
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({
   extended: true
+}));
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2' ]
 }));
 app.set("view engine", "ejs");
 
@@ -57,8 +62,12 @@ app.get("/users/new", function (req, res) {
 app.post("/users", function (req, res) {
   if (req.body.password === req.body.password_confirmation) {
     User.create({name: req.body.name,
-                          email: req.body.email,
-                          password: req.body.password}),
+                 email: req.body.email,
+                 password: req.body.password}),
+                User.findOne({email: req.body.email}, function(err, user){
+                  req.session.user = user.id;
+                  console.log(user.id + "stored user id cookie");
+                }),
       function (err, listing) {
         if (err) {
           res.send("There was a problem adding the information to the database.");
@@ -81,3 +90,7 @@ app.listen(3000, function () {
 
 
 // https://expressjs.com/en/guide/routing.html - instruction how to create seperate files with routing
+// User.findOne({email: req.body.email}, function(err, user){
+//  req.session.user = user.id;
+//  console.log(user.id + "stored user id cookie");
+//});
