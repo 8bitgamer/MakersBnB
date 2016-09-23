@@ -58,8 +58,7 @@ app.post("/listings", function (req, res) {
   Listing.create({name: req.body.name,
                   description: req.body.description,
                   price: req.body.price,
-                  availableFrom: req.body.availableFrom,
-                  availableTo: req.body.availableTo,
+                  available: req.body.available,
                   booking: null,
                   owner: req.session.user
                 }),
@@ -202,13 +201,9 @@ app.post('/users/login', function(req, res){
 
 app.get('/listings_filter', function(req, res){
   req.session.filter_date = req.query.filter_date;
-  // Listing.find({}).where('available').equals(req.session.filter_date).where('booking').equals(null).exec(function(err, listings) {
-    Listing.find({'availableFrom': { $lte: req.session.filter_date}, 'availableTo': {$gte: req.session.filter_date}},
-        function(err, listings){
-
-               // {'availableTo': {'$lte': req.body.book_to}},
+  Listing.find({}).where('available').equals(req.session.filter_date).where('booking').equals(null).exec(function(err, listings) {
     res.render("listings/index", { listings });
-  });
+  })
 });
 
 app.get('/users/logout', function(req, res) {
