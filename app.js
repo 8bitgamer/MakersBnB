@@ -53,8 +53,7 @@ app.post("/listings", function (req, res) {
   Listing.create({name: req.body.name,
                   description: req.body.description,
                   price: req.body.price,
-                  availableFrom: req.body.availableFrom,
-                  availableTo: req.body.availableTo,
+                  available: req.body.available,
                   booking: null,
                   owner: req.session.user
                 }),
