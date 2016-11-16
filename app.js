@@ -223,8 +223,8 @@ app.use(function(err, req, res, next) {
   res.status(500).send('Something broke!');
 });
 
-app.listen(3000, function () {
-  console.log('Makers B&B app listening on port 3000!');
+app.listen(process.env.PORT || 3000, function () {
+  console.log('Makers B&B app up and running!');
 });
 
 // https://expressjs.com/en/guide/routing.html - instruction how to create seperate files with routing
