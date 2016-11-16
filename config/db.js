@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/makers-bnb-' + process.env.NODE_ENV);
+mongoose.connect('mongodb://johnny:DVz-zK4-rNx-23c@ds013559.mlab.com:13559/makersbnb');
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
