@@ -1,5 +1,9 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/makers-bnb-' + process.env.NODE_ENV);
+if (process.env.NODE_ENV == 'production') {
+  mongoose.connect(process.env.MONGO_DB);
+} else {
+  mongoose.connect('mongodb://localhost/makers-bnb-' + process.env.NODE_ENV);
+}
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
