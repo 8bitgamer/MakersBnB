@@ -1,5 +1,13 @@
 # MakersBnB
 
+## Makers BnB - Team project
+###### by [Tim Tang](https://github.com/Tim3tang), [Erce Kalabalikoglu](https://github.com/ercekal), [Jon Shad](https://github.com/MrJons), [Peter Miklos](https://github.com/peter-miklos) and [Johnny Dworzynski](https://github.com/johnnydee8)
+</p>
+
+1st team project at Makers, the goal is to reproduce AirBnB functionality.
+
+The project is also available live [here](http://makers-bnb-johnny.herokuapp.com)
+
 ## How to use this repo:
 + Fork it
 + Clone it to your device
@@ -19,17 +27,16 @@
 + Nights for which a space has already been booked should not be available for users to book that space.
 + Until a user has confirmed a booking request, that space can still be booked for that night.
 
-## Required technologies:
+## Used technologies:
 
-+ BCrypt,
 + node.js/Express/MongoDB/Mongoose ODM
 + Heroku
 + HTML
-+ JavaScript, jQuery (probably)
-+ Zombie/Jasmine/Mocha for testing
-+ Bootstrap (nice to have )
++ JavaScript, jQuery
++ Zombie/Jasmine/Mocha
++ Bootstrap
 
-## Project timelines:
+## Project timeline:
 
 + Mon - agree on technologies / mock up plan / + research
 + Tue - research + setting up DB, back end `working DB by the end of the day`
@@ -41,9 +48,9 @@
 + Work out how to use GitHub for group projects
 + Express play-around (as a technology alternative to Sinatra)
 
-## Additional resources:
+<!-- ## Additional resources:
 + https://docs.google.com/presentation/d/1GGKBFHbSLH9gLH8xrRTDlltKqi0DB_6wjM2n1UGC6NU/edit?usp=sharing
 + https://github.com/airbnb
 + https://docs.mongodb.com/master/tutorial/install-mongodb-on-os-x/?_ga=1.74321493.614893363.1474293799
 + https://blog.codecentric.de/files/2012/12/MongoDB-CheatSheet-v1_0.pdf
-+ https://trello.com/b/emXzP3WG/day-1
++ https://trello.com/b/emXzP3WG/day-1 -->
