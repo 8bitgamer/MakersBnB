@@ -184,18 +184,22 @@ app.get('/users/login', function(req, res){
 app.post('/users/login', function(req, res){
   var userInput = req.body.password;
   User.findOne({'email': req.body.email}, function(err,user){
-    var currentPassword = user.password;
-    bcrypt.compare(userInput, currentPassword, function(err, bcryptRes) {
-        if (bcryptRes == true) {
-          User.findOne({'email': req.body.email}, function(err, user){
-            req.session.user = user;
-            req.session.save();
-          });
-          res.redirect("/listings");
-        } else {
-          res.redirect("/users/login");
-        }
-    });
+    if (user != null){
+      var currentPassword = user.password;
+      bcrypt.compare(userInput, currentPassword, function(err, bcryptRes) {
+          if (bcryptRes == true) {
+            User.findOne({'email': req.body.email}, function(err, user){
+              req.session.user = user;
+              req.session.save();
+            });
+            res.redirect("/listings");
+          } else {
+            res.redirect("/users/login");
+          }
+      });
+    } else {
+      res.redirect("/users/new")
+    };
   });
 });
 
